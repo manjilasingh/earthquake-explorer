@@ -1,0 +1,59 @@
+{% extends "tethys_layouts/map_layout/map_layout.html" %}
+{% load tethys_gizmos%}
+{% load static %}
+
+
+{% block header_buttons %}
+  <div class="header-button glyphicon-button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Help">
+    <a data-bs-toggle="modal" data-bs-target="#help-modal"><i class="bi bi-question-circle"></i></a>
+  </div>
+{% endblock %}
+
+{% block app_content %}
+{{ block.super }}
+{% endblock %}
+
+{% block custom_map_tabs %}
+<li class="nav-item active" role="presentation">
+  <button class = "nav-link"
+  id="query-tab-toggle"
+  data-bs-toggle="tab"
+  role="tab"
+        data-bs-target="#query-tab-panel"
+        aria-controls="query-tab-panel"
+        aria-selected="true">Filter</button>
+</li>
+
+{% endblock %}
+
+{% block custom_map_tab_panels %}
+{{ block.super }}
+<div class="tab-pane show" id="query-tab-panel" role="tabpanel" aria-labelledby="query-tab-toggle">
+    <div id="query-form-container">
+        <br>
+        <form id="query-form" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+            {% gizmo DatePicker start_date %}
+            
+          </div>
+          <div class="form-group">
+            {% gizmo DatePicker end_date %}
+          </div>
+        </form>
+        <div id="button-container">
+            {% gizmo Button submit_btn %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block app_actions %}
+{% endblock %}
+
+
+
+{% block scripts %}
+{{ block.super }}
+    <script type = "module" src="{% static 'earthquake_explorer/js/app.js' %}"></script>
+{% endblock %}
